@@ -54,6 +54,27 @@ service that uses the user's preferences and selections of movies to be suggeste
 
 ### Class Diagram Description
 
+## Json Schema 
+
+This is what we plan to export to another service.
+
+> {
+>  "type": "object",
+>  "properties": {
+>    "userId": {
+>      "type": "string"
+>    },
+>    "name": {
+>      "type": "string"
+>    },
+>    "email": {
+>      "type": "string",
+>      "format": "email"
+>    }
+
+## Scrum Roles 
+
+
 
 
 
