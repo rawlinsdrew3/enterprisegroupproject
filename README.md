@@ -78,6 +78,11 @@ This is what we plan to export to another service.
 
 [Milestone 1](https://github.com/rawlinsdrew3/enterprisegroupproject/milestones?with_issues=no)
 
+## Standup
+
+[We meet on 6:00pm on Wednesday on Teams](https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZjNhOTEwMzctMjExNS00MGQ3LThkYmYtNTQ2MWVjN2RmYWVk%40thread.v2/0?context=%7b%22Tid%22%3a%22f5222e6c-5fc6-48eb-8f03-73db18203b63%22%2c%22Oid%22%3a%2231499c1f-a1b9-437c-a06b-b213ee708c1c%22%7d)
+
+
 
 
 
