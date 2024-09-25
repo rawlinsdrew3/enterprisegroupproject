@@ -74,12 +74,9 @@ This is what we plan to export to another service.
 
 ## Scrum Roles 
 
+## Milestones
 
-
-
-
-
-
+[Milestone 1](https://github.com/rawlinsdrew3/enterprisegroupproject/milestones?with_issues=no)
 
 
 
