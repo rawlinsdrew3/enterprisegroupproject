@@ -56,6 +56,8 @@ service that uses the user's preferences and selections of movies to be suggeste
 
 ### Class Diagram Description
 
+This diagram represents a **Movie Recommendation System** with three layers: UI, Service, and Database. The UI displays movie details like rating, genre, and title, managed by the `MovieRecommendation` class. The Service layer fetches movie data via `MovieDAO`, while the Database layer stores movie attributes like `MovieRating` and `MovieGenre`.
+
 ## Json Schema 
 
 This is what we plan to export to another service.
