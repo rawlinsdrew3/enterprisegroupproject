@@ -84,7 +84,6 @@ This is what we plan to export to another service.
 - Ethan Beach - Developer
 - Earl Schreck - Developer
 
-##Scrum Board
 ![image](https://github.com/user-attachments/assets/04501a44-8e7a-48b4-b0ba-3c341c6ce4bb)
 
 ## Milestones
