@@ -79,8 +79,8 @@ This is what we plan to export to another service.
 ## Scrum Roles 
 
 - Drew Rawlins - Product Owner
-- Ravi Nayak - ?
-- Marko Nisiama - ?
+- Ravi Nayak - UI Specialist
+- Marko Nisiama - Business Logic & Persistence Specialist 
 - Ethan Beach - Developer
 - Earl Schreck - Developer
 
