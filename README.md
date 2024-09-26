@@ -8,7 +8,8 @@ service that uses the user's preferences and selections of movies to be suggeste
 
 ## Storyboard
 
-[LINK]
+<img width="1031" alt="Screenshot 2024-09-25 at 9 48 33 PM" src="https://github.com/user-attachments/assets/ca52fc04-a4b4-4189-ad7a-a42a6834d1a0">
+
 
 ## Requirements
 
