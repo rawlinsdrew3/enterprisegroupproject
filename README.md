@@ -78,6 +78,12 @@ This is what we plan to export to another service.
 
 ## Scrum Roles 
 
+- Drew Rawlins - Product Owner
+- Ravi Nayak - ?
+- Marko Nisiama - ?
+- Ethan Beach - Developer
+- Earl Schreck - Developer
+
 ## Milestones
 
 [Milestone 1](https://github.com/rawlinsdrew3/enterprisegroupproject/milestones?with_issues=no)
