@@ -8,14 +8,15 @@ service that uses the user's preferences and selections of movies to be suggeste
 
 ## Storyboard
 
-<img width="1031" alt="Screenshot 2024-09-25 at 9 48 33 PM" src="https://github.com/user-attachments/assets/ca52fc04-a4b4-4189-ad7a-a42a6834d1a0">
+![image](https://github.com/user-attachments/assets/07b112ac-2164-465c-9a1c-8b823b6a02bb)
+
 
 
 ## Requirements
 
-1. As a User I want to log into my account, so that I can view my personalized dashboard
+1. As a User, I want to create an account and log in, so that I can manage my profile and access personalized recommendations  
 
-**Given**: I have already registered an account 
+**Given**: I do not have an account or I am logged out. 
 
 **When**: I enter my email and password on the login page, then click Login  
 
