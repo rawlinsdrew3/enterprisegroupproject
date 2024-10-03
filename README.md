@@ -63,19 +63,42 @@ This diagram represents a **Movie Recommendation System** with three layers: UI,
 
 This is what we plan to export to another service.
 
-> {
->  "type": "object",
->  "properties": {
->    "userId": {
->      "type": "string"
->    },
->    "name": {
->      "type": "string"
->    },
->    "email": {
->      "type": "string",
->      "format": "email"
->    }
+type": "object",
+  "properties": {
+    "movieId": {
+      "type": "string",
+      "description": "Unique identifier for the movie"
+    },
+    "title": {
+      "type": "string",
+      "description": "The title of the movie"
+    },
+    "genre": {
+      "type": "string",
+      "description": "The genre of the movie"
+    },
+    "director": {
+      "type": "string",
+      "description": "The name of the movie's director"
+    },
+    "rating": {
+      "type": "number",
+      "description": "Average rating of the movie out of 5"
+    },
+    "releaseYear": {
+      "type": "integer",
+      "description": "The year the movie was released"
+    },
+    "cast": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "An array of actors in the movie"
+    }
+  },
+  "required": ["movieId", "title", "genre", "director", "rating", "releaseYear", "cast"]
+}
 
 ## Scrum Roles 
 
@@ -83,7 +106,7 @@ This is what we plan to export to another service.
 - Ravi Nayak - UI Specialist
 - Marko Nisiama - Business Logic & Persistence Specialist 
 - Ethan Beach - Developer
-- Earl Schreck - Developer
+- Earl Schreck - Testing/Debugging
 
 ![image](https://github.com/user-attachments/assets/04501a44-8e7a-48b4-b0ba-3c341c6ce4bb)
 
