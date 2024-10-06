@@ -52,7 +52,9 @@ service that uses the user's preferences and selections of movies to be suggeste
 
 ## Class Diagram
 
-![Blank diagram (6)](https://github.com/user-attachments/assets/e1a60bc3-1a52-42a8-ab01-c11e91b8f7bd)
+![Blank diagram](https://github.com/user-attachments/assets/79ab4673-ff69-47fd-a4a3-8bd57e815f04)
+
+
 
 
 ### Class Diagram Description
