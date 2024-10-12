@@ -1,6 +1,8 @@
 package com.movierecommender.project.dto;
 
-public class Movie
+import lombok.Data;
+
+public @Data class Movie
 {
     public int movieId;
     public String title;
