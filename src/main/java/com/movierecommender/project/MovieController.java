@@ -11,4 +11,14 @@ public class MovieController
     {
         return "Index";
     }
+    @RequestMapping("/Login")
+    public String Login()
+    {
+        return "login";
+    }
+    @RequestMapping("/Browse")
+    public String Browse()
+    {
+        return "browse";
+    }
 }
