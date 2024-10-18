@@ -16,9 +16,19 @@ public class MovieController
     {
         return "login";
     }
+    @RequestMapping("/Signup")
+    public String Signup()
+    {
+        return "signup";
+    }
     @RequestMapping("/Browse")
     public String Browse()
     {
         return "browse";
+    }
+    @RequestMapping("/Profile")
+    public String Profile()
+    {
+        return "profile";
     }
 }

@@ -21,12 +21,13 @@
         <a class="navbar-brand" href="/">Movie Recommender</a>
         <a class="nav-link" href="/">Home</a>
         <a class="nav-link" href="/Browse">Browse</a>
+        <a class="nav-link" href="/Login">Profile</a>
+        <a class="nav-link" href="/Login">Settings</a>
         <div class="collapse navbar-collapse justify-content-end">
             <form class="form-inline">
                 <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
                 <button class="btn btn-outline-primary" type="submit">Search</button>
             </form>
-            <a class="nav-link" href="/Login">Profile</a>
         </div>
     </nav>
 <!--Login Form-->
@@ -41,7 +42,8 @@
                 <input type="checkbox" value="remember-me"> Remember me
             </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="button" onclick="window.location.href='/Profile'">Sign in</button>
+        <a class="nav-link small" href="/Signup">Create New Account</a>
     </form>
 </body>
 </html>
