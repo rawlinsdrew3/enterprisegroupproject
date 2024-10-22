@@ -1,0 +1,46 @@
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import org.mindrot.jbcrypt.BCrypt;  // For password hashing
+import org.springframework.stereotype.Service;
+
+@Service
+public class AuthService {
+
+    private final String userFile = "users.txt";  
+
+    public boolean authenticate(String username, String password) {
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(userFile));
+
+            for (String line : lines) {
+                String[] userInfo = line.split(",");  
+                String storedUsername = userInfo[0];
+                String storedHashedPassword = userInfo[1];
+
+                
+                if (storedUsername.equals(username) && BCrypt.checkpw(password, storedHashedPassword)) {
+                    return true;  
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();  
+        }
+        return false;  // Return false if no match is found or an error occurs
+    }
+
+    // Method to register a new user by appending to the .txt file
+    public boolean registerUser(String username, String password) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(userFile, true))) {
+
+            String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
+            
+            writer.write(username + "," + hashedPassword);
+            writer.newLine();  
+            return true;  // Registration successful
+        } catch (IOException e) {
+            e.printStackTrace();  
+        }
+        return false;  
+    }
+}
