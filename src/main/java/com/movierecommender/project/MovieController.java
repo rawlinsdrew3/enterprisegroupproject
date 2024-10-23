@@ -1,3 +1,6 @@
+package com.movierecommender.project;
+
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -7,7 +10,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.io.IOException;
 
-@RestController
+@Controller
 public class MovieController {
 
     @GetMapping("/movie")
@@ -36,27 +39,27 @@ public class MovieController {
     }
 
     //Added mapping for html pages
-    @RequestMapping("/")
+    @GetMapping("/")
     public String Index()
     {
         return "Index";
     }
-    @RequestMapping("/Login")
+    @GetMapping("/Login")
     public String Login()
     {
         return "login";
     }
-    @RequestMapping("/Signup")
+    @GetMapping("/Signup")
     public String Signup()
     {
         return "signup";
     }
-    @RequestMapping("/Browse")
+    @GetMapping("/Browse")
     public String Browse()
     {
         return "browse";
     }
-    @RequestMapping("/Profile")
+    @GetMapping("/Profile")
     public String Profile()
     {
         return "profile";
