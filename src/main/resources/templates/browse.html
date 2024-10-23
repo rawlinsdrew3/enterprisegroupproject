@@ -21,9 +21,43 @@
         </div>
     </nav>
 <!--Main Body-->
+<!--Filter Section-->
     <div class="container text-center mt-5">
-        <h1>Browse Movies</h1>
-        <!--Need to figure out how to dynamically add Movie Titles + Photos in a 4x? Format via Database-->
+        <h1>Filter</h1>
+        <form class="align-content-center">
+            <div class="row">
+                <div class="col">
+                    <label for="genreSelect">Genre</label>
+                    <select class="form-control" id="genreSelect">
+                        <option value="">Select Genre</option>
+                        <option value="action">Action</option>
+                        <option value="comedy">Comedy</option>
+                        <option value="drama">Drama</option>
+                        <option value="horror">Horror</option>
+                        <option value="romance">Romance</option>
+                        <!--Add more genres here if needed-->
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="ratingSelect">Rating</label>
+                    <select class="form-control" id="ratingSelect">
+                        <option value="">Select Rating</option>
+                        <option value="highRating">7-10</option>
+                        <option value="midRating">4-7</option>
+                        <option value="lowRating">1-4</option>
+                    </select>
+                </div>
+                <div class="col d-flex align-items-end">
+                    <label for="filterSubmit" class="sr-only">Submit</label>
+                    <button type="submit" class="btn btn-primary btn-block" id="filterSubmit">Apply Filters</button>
+                </div>
+            </div>
+        </form>
+    </div>
+<!--Browse Section-->
+    <div class="container text-center mt-5">
+        <h1>Browse</h1>
+        Enter Movies Here
     </div>
 </body>
 </html>
