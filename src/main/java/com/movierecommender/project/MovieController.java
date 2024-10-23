@@ -1,4 +1,5 @@
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -32,5 +33,32 @@ public class MovieController {
             e.printStackTrace();
             return "Error occurred while fetching movie data.";
         }
+    }
+
+    //Added mapping for html pages
+    @RequestMapping("/")
+    public String Index()
+    {
+        return "Index";
+    }
+    @RequestMapping("/Login")
+    public String Login()
+    {
+        return "login";
+    }
+    @RequestMapping("/Signup")
+    public String Signup()
+    {
+        return "signup";
+    }
+    @RequestMapping("/Browse")
+    public String Browse()
+    {
+        return "browse";
+    }
+    @RequestMapping("/Profile")
+    public String Profile()
+    {
+        return "profile";
     }
 }
