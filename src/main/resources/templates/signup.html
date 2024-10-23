@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+      .signup
+      {
+        max-width: 500px;
+        margin: auto;
+        margin-top: 20px;
+        padding: 2rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+    </style>
+</head>
+<body>
+<!--Navigation-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Movie Recommender</a>
+        <a class="nav-link" href="/">Home</a>
+        <a class="nav-link" href="/Browse">Browse</a>
+        <a class="nav-link" href="/Login">Profile</a>
+        <a class="nav-link" href="/Login">Settings</a>
+        <div class="collapse navbar-collapse justify-content-end">
+            <form class="form-inline">
+                <input class="form-control mr-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-primary" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+    <div class="container text-center mt-5">
+        <h1>Signup</h1>
+        <!--Include features such as a signup process that asks for the email & password then asks the user to add some preferences-->
+      <form class = "signup">
+          <div class="form-row">
+              <div class="form-group col-md-6">
+                  <label for="inputFName">First Name</label>
+                  <input type="text" class="form-control" id="inputFName" placeholder="FirstName">
+              </div>
+              <div class="form-group col-md-6">
+                  <label for="inputLName">Last Name</label>
+                  <input type="text" class="form-control" id="inputLName" placeholder="LastName">
+              </div>
+          </div>
+          <div class="form-row">
+              <div class="form-group col-md-6">
+                  <label for="inputEmail">Email</label>
+                  <input type="email" class="form-control" id="inputEmail" placeholder="Email">
+              </div>
+              <div class="form-group col-md-6">
+                  <label for="inputPassword">Password</label>
+                  <input type="password" class="form-control" id="inputPassword" placeholder="Password">
+              </div>
+          </div>
+        <button type="submit" class="btn btn-primary">Sign up</button>
+      </form>
+    </div>
+</body>
+</html>
