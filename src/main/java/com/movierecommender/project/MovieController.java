@@ -44,12 +44,12 @@ public class MovieController {
     {
         return "Index";
     }
-    @GetMapping("/Login")
+    @GetMapping("/login")
     public String Login()
     {
         return "login";
     }
-    @GetMapping("/Signup")
+    @GetMapping("/signup")
     public String Signup()
     {
         return "signup";
