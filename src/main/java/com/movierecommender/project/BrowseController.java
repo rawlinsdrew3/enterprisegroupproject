@@ -21,13 +21,31 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 public class BrowseController {
 
+    private static final String BEARER_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NmZmYTM2NjgyYTY5ZDM1OWQ1MjQ4OTFkNDQ1OGI2NiIsIm5iZiI6MTcyOTYyNDQ5MS43MjE2MTgsInN1YiI6IjY3MTdmODBjNmU0MjEwNzgwZjc4NzRlYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ubnKxHe4mfL51OE8NhOz31gacsvQU0wyh1Ja6vfp4D0"; // Replace with your actual token
+    private static final Map<Integer, String> GENRE_MAP = Map.of(
+            28, "Action",
+            35, "Comedy",
+            18, "Drama",
+            27, "Horror",
+            10749, "Romance",
+            16, "Animation",
+            878, "Science Fiction",
+            10751, "Family",
+            12, "Adventure",
+            53, "Thriller"
+            // Add more mappings as needed.
+    );
+
     @GetMapping("/browse")
     //method accounts for search queries with @RequestParam
-    public String browseMovies(@RequestParam(required = false) String query, Model model) {
+    public String browseMovies(@RequestParam(required = false) String query,
+                                Model model) {
 
         //url is set to an empty string
         String url;
@@ -47,7 +65,7 @@ public class BrowseController {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .header("accept", "application/json")
-                .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NmZmYTM2NjgyYTY5ZDM1OWQ1MjQ4OTFkNDQ1OGI2NiIsIm5iZiI6MTcyOTYyNDQ5MS43MjE2MTgsInN1YiI6IjY3MTdmODBjNmU0MjEwNzgwZjc4NzRlYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ubnKxHe4mfL51OE8NhOz31gacsvQU0wyh1Ja6vfp4D0") //api token
+                .header("Authorization", "Bearer " + BEARER_TOKEN) //api token
                 .GET()
                 .build();
 
@@ -62,6 +80,7 @@ public class BrowseController {
                             .filter(movie -> movie.getTitle().toLowerCase().contains(query.toLowerCase()))
                             .toList();
                 }
+
 
                 model.addAttribute("movies", movies);
                 return "browse";
@@ -88,8 +107,14 @@ public class BrowseController {
                 Movie movie = new Movie();
                 movie.setMovieId(movieNode.path("id").asInt());
                 movie.setTitle(movieNode.path("original_title").asText());
-                movie.setGenre(movieNode.path("genre_ids").asText());
-                movie.setRating(movieNode.path("vote_average").asInt());
+
+                List<Integer> genreIds = mapper.convertValue(movieNode.path("genre_ids"), List.class);
+                String genres = genreIds.stream()
+                        .map(id -> GENRE_MAP.getOrDefault(id, "Unknown"))
+                        .collect(Collectors.joining(", "));
+                movie.setGenre(genres);
+
+                movie.setRating((int) Math.round(movieNode.path("vote_average").asDouble()));
                 movie.setReleaseYear(movieNode.path("release_date").asText());
                 movie.setDescription(movieNode.path("overview").asText());
                 movies.add(movie);
@@ -102,4 +127,75 @@ public class BrowseController {
 
         return movies;
     }
+    @GetMapping("/browse/filtered")
+    public String browseMoviesWithFilters(
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) String rating,
+            Model model) {
+
+        // If no query is provided, return the view with no results.
+        if (query == null || query.trim().isEmpty()) {
+            return "browse";
+        }
+
+        // Construct the URL for searching movies by name.
+        String url = "https://api.themoviedb.org/3/search/movie?query=" +
+                URLEncoder.encode(query, StandardCharsets.UTF_8) +
+                "&include_adult=false&language=en-US&page=1";
+
+        // Fetch movies from the API.
+        List<Movie> movies = fetchMoviesFromApi(url);
+
+        // Apply filters if movies are fetched.
+        if (movies != null && !movies.isEmpty()) {
+            movies = filterMovies(movies, genre, rating);
+        }
+
+        model.addAttribute("movies", movies);
+        return "browse";
+    }
+
+
+    // Helper method to fetch movies from the API.
+    private List<Movie> fetchMoviesFromApi(String url) {
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(url))
+                .header("accept", "application/json")
+                .header("Authorization", "Bearer " + BEARER_TOKEN)
+                .GET()
+                .build();
+
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() == 200) {
+                return parseMovies(response.body());
+            } else {
+                System.out.println("Error: " + response.statusCode());
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    // Method to filter movies based on genre and rating.
+    private List<Movie> filterMovies(List<Movie> movies, String genre, String rating) {
+        return movies.stream()
+                .filter(movie -> genre == null || genre.isEmpty() || movie.getGenre().toLowerCase().contains(genre.toLowerCase()))
+                .filter(movie -> {
+                    int voteAverage = movie.getRating();
+                    if ("highRating".equalsIgnoreCase(rating)) {
+                        return voteAverage >= 7 && voteAverage <= 10;
+                    } else if ("midRating".equalsIgnoreCase(rating)) {
+                        return voteAverage >= 4 && voteAverage < 7;
+                    } else if ("lowRating".equalsIgnoreCase(rating)) {
+                        return voteAverage >= 1 && voteAverage < 4;
+                    }
+                    return true;
+                })
+                .collect(Collectors.toList());
+    }
 }
+
+
