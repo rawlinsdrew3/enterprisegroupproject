@@ -2,95 +2,264 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Browse</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Movies - Movie Recommender</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <style>
-        .list
-        {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 0;
-            list-style-type: none;
+        :root {
+            --primary-color: #e74c3c;
+            --secondary-color: #2c3e50;
+            --background-light: #f8f9fa;
         }
-        .list-item
-        {
-            text-align: center;
-            margin: 10px 0;
+
+        body {
+            background-color: var(--background-light);
+        }
+
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.95) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: var(--secondary-color) !important;
+        }
+
+        .nav-link {
+            color: #34495e !important;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        .browse-header {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+            url('/api/placeholder/1920/300');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 60px 0;
+            margin-bottom: 30px;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            border-radius: 30px;
+            padding: 20px 25px;
+            font-size: 1.1rem;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,.1);
+        }
+
+        .search-btn {
+            border-radius: 30px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            background-color: var(--primary-color);
+            border: none;
+            color: white;
+            transition: transform 0.2s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            background-color: #c0392b;
+        }
+
+        .filter-section {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,.1);
+            margin-bottom: 30px;
+        }
+
+        .filter-title {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            padding: 20px 0;
+        }
+
+        .movie-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,.1);
+            transition: transform 0.3s ease;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .movie-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .movie-content {
+            padding: 20px;
+        }
+
+        .movie-title {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .movie-info {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .rating {
+            color: #f1c40f;
+            margin-right: 5px;
+        }
+
+        .genre-badge {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            display: inline-block;
+            margin-bottom: 5px;
         }
     </style>
 </head>
 <body>
-<!--Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">Movie Recommender</a>
-        <a class="nav-link" href="/">Home</a>
-        <a class="nav-link" href="/browse">Browse</a>
-        <a class="nav-link" href="/login">Profile</a>
-        <a class="nav-link" href="/login">Settings</a>
 
-    </nav>
-<!--Main Body-->
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="/"><i class="fas fa-film mr-2"></i>Movie Recommender</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/"><i class="fas fa-home mr-1"></i> Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/browse"><i class="fas fa-search mr-1"></i> Browse</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login"><i class="fas fa-user mr-1"></i> Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login"><i class="fas fa-cog mr-1"></i> Settings</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 
 
-<!--Searchbox-->
-<div class="container text-center mt-5">
-    <h1>Browse</h1>
-    <form class="form-inline justify-content-center mt-3" action="/browse" method="get">
-        <input class="form-control mr-2" type="search" name="query" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-primary" type="submit">Search</button>
-    </form>
-<!--Filter Section-->
-    <div class="container text-center mt-5">
-        <h1>Filter</h1>
-        <form class="align-content-center" action="/browse/filtered" method="get">
+<header class="browse-header">
+    <div class="container">
+        <div class="text-center">
+            <h1 class="display-4 mb-4">Browse Movies</h1>
+            <div class="search-container">
+                <form class="form-inline justify-content-center" action="/browse" method="get">
+                    <input class="form-control search-input mr-3 flex-grow-1" type="search"
+                           name="query" placeholder="Search movies..." aria-label="Search">
+                    <button class="btn search-btn" type="submit">
+                        <i class="fas fa-search mr-2"></i>Search
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="container">
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <h2 class="filter-title"><i class="fas fa-filter mr-2"></i>Filters</h2>
+        <form action="/browse/filtered" method="get">
             <div class="row">
-                <div class="col">
-                    <label for="genreSelect">Genre</label>
+                <div class="col-md-4 mb-3">
+                    <label for="genreSelect"><i class="fas fa-theater-masks mr-2"></i>Genre</label>
                     <select class="form-control" id="genreSelect" name="genre">
-                        <option value="">Select Genre</option>
+                        <option value="">All Genres</option>
                         <option value="Action">Action</option>
                         <option value="Comedy">Comedy</option>
                         <option value="Drama">Drama</option>
                         <option value="Horror">Horror</option>
                         <option value="Romance">Romance</option>
-                        <!-- Add more genres here if needed -->
                     </select>
                 </div>
-                <div class="col">
-                    <label for="ratingSelect">Rating</label>
+                <div class="col-md-4 mb-3">
+                    <label for="ratingSelect"><i class="fas fa-star mr-2"></i>Rating</label>
                     <select class="form-control" id="ratingSelect" name="rating">
-                        <option value="">Select Rating</option>
-                        <option value="highRating">7-10</option>
-                        <option value="midRating">4-7</option>
-                        <option value="lowRating">1-4</option>
+                        <option value="">All Ratings</option>
+                        <option value="highRating">7-10 Stars</option>
+                        <option value="midRating">4-7 Stars</option>
+                        <option value="lowRating">1-4 Stars</option>
                     </select>
                 </div>
-                <div class="col d-flex align-items-end">
-                    <label for="filterSubmit" class="sr-only">Submit</label>
-                    <button type="submit" class="btn btn-primary btn-block" id="filterSubmit">Apply Filters</button>
+                <div class="col-md-4 mb-3 d-flex align-items-end">
+                    <button type="submit" class="btn search-btn btn-block">
+                        <i class="fas fa-check mr-2"></i>Apply Filters
+                    </button>
                 </div>
             </div>
         </form>
-    </div>
-<!--Browse Section-->
-<!--Will populate with movies-->
-    <div class="container text-center mt-5">
-        <div class="row">
-            <div class="column">
-                <h3>Movies</h3>
-                <ul class="list">
-                    <!--Could make the listed titles link to a separate page that can suggest movies based on the selected title?-->
-                    <li class="list-item" th:each="movie : ${movies}">
-                        <h5 th:text="${movie.title}">Title</h5>
-                        <p th:text="${movie.description}">Description</p>
-                        <p>Rating: <span th:text="${movie.rating}"></span></p>
-                        <p>Release Date: <span th:text="${movie.releaseYear}"></span></p>
-                    </li>
-                </ul>
+    </section>
+
+    <!-- Movies Grid -->
+    <section class="movie-grid">
+
+        <div class="movie-card" th:each="movie : ${movies}">
+            <img class="movie-image" src="/api/placeholder/250/300" alt="Movie Poster">
+            <div class="movie-content">
+                <h3 class="movie-title" th:text="${movie.title}">Movie Title</h3>
+                <div class="movie-info">
+                    <p th:text="${movie.description}">Movie description goes here...</p>
+                    <p>
+                            <span class="rating">
+                                <i class="fas fa-star"></i>
+                                <span th:text="${movie.rating}">8.5</span>
+                            </span>
+                        <span class="year" th:text="${movie.releaseYear}">2024</span>
+                    </p>
+                    <div class="genres">
+                        <span class="genre-badge">Action</span>
+                        <span class="genre-badge">Adventure</span>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
