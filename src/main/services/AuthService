@@ -10,6 +10,12 @@ public class AuthService {
     private final String userFile = "users.txt";  
 
     public boolean authenticate(String username, String password) {
+        //added checks for null or invalid input
+        if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
+            System.err.println("Invalid username or password");
+            return false;
+        }
+
         try {
             List<String> lines = Files.readAllLines(Paths.get(userFile));
 
@@ -31,6 +37,16 @@ public class AuthService {
 
     // Method to register a new user by appending to the .txt file
     public boolean registerUser(String username, String password) {
+        // added checks for null or invalid input
+        if (username == null || password == null || username.isEmpty() || password.isEmpty()) {
+            System.err.println("Invalid username or password");
+            return false;
+        }
+        if (username.contains(",") || password.contains(",")) {
+            System.err.println("Username and password must not contain commas");
+            return false;
+        }
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(userFile, true))) {
 
             String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
