@@ -24,11 +24,11 @@
         <h1>Profile</h1>
         <div class="container text-center mt-4">
             <h3>Favorite Genres</h3>
-            <form>
+            <form action="/profile" method="post">
                 <div class="form-group">
                     <label>Choose a Genre: </label>
                     <label>
-                        <select class="form-control form-control-sm">
+                        <select class="form-control form-control-sm" name="selectedGenre">
                             <option value="Action">Action</option>
                             <option value="Comedy">Comedy</option>
                             <option value="Drama">Drama</option>
@@ -37,18 +37,16 @@
                         </select>
                     </label>
                 </div>
-                <button type="button" class="btn btn-primary">Add to Favorites</button>
-                <!--Will need to link favorite genres to logged in profile-->
+                <button type="submit" class="btn btn-primary">Add to Favorites</button>
             </form>
         </div>
     </div>
     <div class="container text-center mt-4">
         <h3>Selected Genres</h3>
         <ul id="genreList" class="list-group">
-            <!--Fake listings for testing purposes-->
-            <li>Test Genre</li>
-            <li>Test Genre</li>
-            <li>Test Genre</li>
+            <li th:each="genre : ${favoriteGenres}">
+                <span th:text="${genre}"></span>
+            </li>
         </ul>
     </div>
     <div class="container text-center mt-4">
