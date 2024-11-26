@@ -108,6 +108,11 @@ public class BrowseController {
                 movie.setMovieId(movieNode.path("id").asInt());
                 movie.setTitle(movieNode.path("original_title").asText());
 
+                //String posterDisplay = movieNode.path("poster_display").asText();
+                String posterUrl = "https://image.tmdb.org/t/p/original" + movieNode.path("poster_path").asText();
+
+                movie.setPosterUrl(posterUrl);
+
                 List<Integer> genreIds = mapper.convertValue(movieNode.path("genre_ids"), List.class);
                 String genres = genreIds.stream()
                         .map(id -> GENRE_MAP.getOrDefault(id, "Unknown"))

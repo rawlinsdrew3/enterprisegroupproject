@@ -81,7 +81,19 @@
                 <h3>Movies</h3>
                 <ul class="list">
                     <!--Could make the listed titles link to a separate page that can suggest movies based on the selected title?-->
+
                     <li class="list-item" th:each="movie : ${movies}">
+
+<!--                        Current Poster Not Found Is Hard Coded ALt Text, needs fixed.-->
+<!--                        Stack overflow says this code might work                     -->
+<!--    String posterUrl = movieNode.path("poster_path").asText();
+    if (posterUrl.isEmpty()) {
+        posterUrl = "https://example.com/default-poster.jpg";
+    } else {
+        posterUrl = "https://image.tmdb.org/t/p/original" + posterUrl;
+    }
+    movie.setPosterUrl(posterUrl);                                                           -->
+                        <img th:src="@{${movie.posterUrl}}" alt="Origal Poster Not Found" class="img-thumbnail" style="width: 100px; height: 150px; margin-right: 15px;">
                         <h5 th:text="${movie.title}">Title</h5>
                         <p th:text="${movie.description}">Description</p>
                         <p>Rating: <span th:text="${movie.rating}"></span></p>

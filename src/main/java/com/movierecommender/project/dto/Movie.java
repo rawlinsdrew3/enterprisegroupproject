@@ -11,4 +11,12 @@ public @Data class Movie
     public int rating;
     public String releaseYear;
     public String description;
+    private String posterUrl;
+
+//    public String getPosterUrl() {
+//        return posterUrl;
+//    }
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
+    }
 }
