@@ -43,22 +43,23 @@ public class BrowseController {
     );
 
     @GetMapping("/browse")
-    //method accounts for search queries with @RequestParam
-    public String browseMovies(@RequestParam(required = false) String query,
-                                Model model) {
+    public String browseMovies(
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) String rating,
+            Model model) {
 
         //url is set to an empty string
         String url;
         //here, if there is a search the database will be queried and populate with relevant material
         // else will return nothing
 
-        if (query != null&& !query.trim().isEmpty()) {
+        if (query != null && !query.trim().isEmpty()) {
             url = "https://api.themoviedb.org/3/search/movie?query=" + URLEncoder.encode(query, StandardCharsets.UTF_8) + "&include_adult=false&language=en-US&page=1";
         }
         // uncomment the url and comment the return to return a default set of movies
         else {
-            //url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc";
-            return "browse";
+            url = "https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=1&sort_by=popularity.desc";
         }
 
         HttpClient client = HttpClient.newHttpClient();
@@ -74,13 +75,17 @@ public class BrowseController {
             //pings database and sends data
             if (response.statusCode() == 200) {
                 List<Movie> movies = parseMovies(response.body());
-                //code for searchbox
-                if (query !=null && !query.trim().isEmpty()){
+                // Apply filters if necessary
+                if (query != null && !query.trim().isEmpty()){
                     movies = movies.stream()
                             .filter(movie -> movie.getTitle().toLowerCase().contains(query.toLowerCase()))
-                            .toList();
+                            .collect(Collectors.toList());
                 }
 
+                // Apply additional filters if genre or rating are provided
+                if (genre != null || rating != null) {
+                    movies = filterMovies(movies, genre, rating);
+                }
 
                 model.addAttribute("movies", movies);
                 return "browse";
@@ -93,6 +98,40 @@ public class BrowseController {
             model.addAttribute("error", "Error Occurred While Fetching Data");
             return "browse";
         }
+
+//entirely unsure why this no longer works, think it is because it is a duplicate client request from elsewhere. - Earl
+//        client = HttpClient.newHttpClient();
+//        request = HttpRequest.newBuilder()
+//                .uri(URI.create(url))
+//                .header("accept", "application/json")
+//                .header("Authorization", "Bearer " + BEARER_TOKEN) //api token
+//                .GET()
+//                .build();
+//
+//        try {
+//            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+//            //pings database and sends data
+//            if (response.statusCode() == 200) {
+//                List<Movie> movies = parseMovies(response.body());
+//                //code for searchbox
+//                if (query !=null && !query.trim().isEmpty()){
+//                    movies = movies.stream()
+//                            .filter(movie -> movie.getTitle().toLowerCase().contains(query.toLowerCase()))
+//                            .toList();
+//                }
+//
+//
+//                model.addAttribute("movies", movies);
+//                return "browse";
+//            } else {
+//                model.addAttribute("error", "Something went wrong" + response.statusCode());
+//                return "browse";
+//            }
+//        } catch (IOException | InterruptedException e) {
+//            e.printStackTrace();
+//            model.addAttribute("error", "Error Occurred While Fetching Data");
+//            return "browse";
+//        }
     }
 // list used to populate with movie api data
     private List<Movie> parseMovies(String jsonResponse) throws JsonProcessingException {
