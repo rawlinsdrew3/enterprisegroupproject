@@ -13,89 +13,94 @@
             padding: 0;
             list-style-type: none;
         }
-        .list-item
+        body
         {
-            text-align: center;
-            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+        .browse-section
+        {
+            max-width: 900px;
+            width: 100%;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
         }
     </style>
 </head>
 <body>
 <!--Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light w-100">
         <a class="navbar-brand" href="/">Movie Recommender</a>
         <a class="nav-link" href="/">Home</a>
         <a class="nav-link" href="/browse">Browse</a>
         <a class="nav-link" href="/login">Profile</a>
         <a class="nav-link" href="/login">Settings</a>
-
     </nav>
 <!--Main Body-->
 
 
 <!--Searchbox-->
-<h1>Browse</h1>
-<form class="d-flex justify-content-center align-items-center mt-3" action="/browse" method="get">
-    <input class="form-control mr-2" type="search" name="query" placeholder="Search" aria-label="Search">
+    <h1>Browse</h1>
+    <div class="browse-section text-center">
+        <form class="mb-4" action="/browse" method="get">
+            <input class="form-control mr-2" type="search" name="query" placeholder="Search" aria-label="Search">
 
-    <!--Filter Section-->
-    <div class="container text-center mt-5">
-        <h1>Filter</h1>
-        <label for="genreSelect">Genre</label>
-        <select class="form-control" id="genreSelect" name="genre">
-            <option value="Action" th:selected="${param.genre == 'Action'}">Action</option>
-            <option value="Comedy" th:selected="${param.genre == 'Comedy'}">Comedy</option>
-            <option value="Drama" th:selected="${param.genre == 'Drama'}">Drama</option>
-            <option value="Horror" th:selected="${param.genre == 'Horror'}">Horror</option>
-            <option value="Romance" th:selected="${param.genre == 'Romance'}">Romance</option>
-            <!-- Add more genres here if needed -->
-        </select>
-    </div>
-    <div class="col">
-        <label for="ratingSelect">Rating</label>
-        <select class="form-control" id="ratingSelect" name="rating">
-            <option value="">Select Rating</option>
-            <option value="highRating" th:selected="${param.rating == 'highRating'}">7-10</option>
-            <option value="midRating" th:selected="${param.rating == 'midRating'}">4-7</option>
-            <option value="lowRating" th:selected="${param.rating == 'lowRating'}">1-4</option>
-        </select>
-    </div>
-    <div class="col d-flex align-items-end">
-        <button class="btn btn-outline-primary" type="submit">Search</button>
-    </div>
-</form>
+            <!--Filter Section-->
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="genreSelect">Genre</label>
+                    <select class="form-control" id="genreSelect" name="genre">
+                        <option value="">Select Genre</option>
+                        <option value="Action" th:selected="${param.genre == 'Action'}">Action</option>
+                        <option value="Comedy" th:selected="${param.genre == 'Comedy'}">Comedy</option>
+                        <option value="Drama" th:selected="${param.genre == 'Drama'}">Drama</option>
+                        <option value="Horror" th:selected="${param.genre == 'Horror'}">Horror</option>
+                        <option value="Romance" th:selected="${param.genre == 'Romance'}">Romance</option>
+                        <!-- Add more genres here if needed -->
+                    </select>
+                </div>
+                <div class="form-group col">
+                    <label for="ratingSelect">Rating</label>
+                    <select class="form-control" id="ratingSelect" name="rating">
+                        <option value="">Select Rating</option>
+                        <option value="highRating" th:selected="${param.rating == 'highRating'}">7-10</option>
+                        <option value="midRating" th:selected="${param.rating == 'midRating'}">4-7</option>
+                        <option value="lowRating" th:selected="${param.rating == 'lowRating'}">1-4</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
 
-
-<div class="row">
-        <div class="column">
+        <div>
             <h3>Movies</h3>
-            <ul class="list">
-                <!--Could make the listed titles link to a separate page that can suggest movies based on the selected title?-->
-
-                <li class="list-item" th:each="movie : ${movies}">
-
-                    <!--                        Current Poster Not Found Is Hard Coded ALt Text, needs fixed.-->
-                    <!--                        Stack overflow says this code might work                     -->
-                    <!--    String posterUrl = movieNode.path("poster_path").asText();
-    if (posterUrl.isEmpty()) {
-        posterUrl = "https://example.com/default-poster.jpg";
-    } else {
-        posterUrl = "https://image.tmdb.org/t/p/original" + posterUrl;
-    }
-    movie.setPosterUrl(posterUrl);                                                           -->
-                    <img th:src="@{${movie.posterUrl}}" alt="Origal Poster Not Found" class="img-thumbnail"
-                         style="width: 100px; height: 150px; margin-right: 15px;">
-                    <h5 th:text="${movie.title}">Title</h5>
-                    <p th:text="${movie.description}">Description</p>
-                    <p>Rating: <span th:text="${movie.rating}"></span></p>
-                    <p>Release Date: <span th:text="${movie.releaseYear}"></span></p>
+            <ul class="list d-flex flex-column align-items-center">
+                <li class="list-item mb-4" th:each="movie : ${movies}">
+                    <div class="card text-center" style="width: 5in;">
+                        <img th:src="@{${movie.posterUrl}}" alt="Poster Not Found" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${movie.title}">Title</h5>
+                            <p class="card-text" th:text="${movie.description}">Description</p>
+                            <p>Rating: <span th:text="${movie.rating}"></span></p>
+                            <p>Release Date: <span th:text="${movie.releaseYear}"></span></p>
+                        </div>
+                        <!--Could make the listed titles link to a separate page that can suggest movies based on the selected title?-->
+                        <!--Current Poster Not Found Is Hard Coded ALt Text, needs fixed.-->
+                        <!--Stack overflow says this code might work-->
+                        <!--String posterUrl = movieNode.path("poster_path").asText();
+                        if (posterUrl.isEmpty())
+                        posterUrl = "https://example.com/default-poster.jpg";
+                        } else {
+                        posterUrl = "https://image.tmdb.org/t/p/original" + posterUrl;
+                        }
+                        movie.setPosterUrl(posterUrl);-->
+                    </div>
                 </li>
             </ul>
         </div>
     </div>
-</div>
-
-
-</div>
 </body>
 </html>
