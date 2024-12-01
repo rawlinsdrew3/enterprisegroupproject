@@ -29,11 +29,11 @@
                     <label>Choose a Genre: </label>
                     <label>
                         <select class="form-control form-control-sm" name="selectedGenre">
-                            <option value="Action">Action</option>
-                            <option value="Comedy">Comedy</option>
-                            <option value="Drama">Drama</option>
-                            <option value="Horror">Horror</option>
-                            <option value="Romance">Romance</option>
+                            <option value="Action" th:selected="${selectedGenre == 'Action'}">Action</option>
+                            <option value="Comedy" th:selected="${selectedGenre == 'Comedy'}">Comedy</option>
+                            <option value="Drama" th:selected="${selectedGenre == 'Drama'}">Drama</option>
+                            <option value="Horror" th:selected="${selectedGenre == 'Horror'}">Horror</option>
+                            <option value="Romance" th:selected="${selectedGenre == 'Romance'}">Romance</option>
                         </select>
                     </label>
                 </div>

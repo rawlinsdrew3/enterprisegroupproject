@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@SessionAttributes("favoriteGenres")
+@SessionAttributes({"favoriteGenres", "selectedGenre"})
 public class ProfileController
 {
 
@@ -47,6 +47,7 @@ public class ProfileController
         }
 
         model.addAttribute("favoriteGenres", favoriteGenres);
+        model.addAttribute("selectedGenre", selectedGenre);
 
         return "/profile";
     }
