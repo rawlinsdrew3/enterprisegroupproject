@@ -5,95 +5,85 @@
     <title>Browse</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        .list
-        {
+        .list {
             display: flex;
             flex-direction: column;
             align-items: center;
             padding: 0;
             list-style-type: none;
         }
-        .list-item
-        {
+
+        .list-item {
             text-align: center;
             margin: 10px 0;
         }
     </style>
 </head>
 <body>
-<!--Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="/">Movie Recommender</a>
-        <a class="nav-link" href="/">Home</a>
-        <a class="nav-link" href="/browse">Browse</a>
-        <a class="nav-link" href="/login">Profile</a>
-        <a class="nav-link" href="/login">Settings</a>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">Movie Recommender</a>
+    <a class="nav-link" href="/">Home</a>
+    <a class="nav-link" href="/browse">Browse</a>
+    <a class="nav-link" href="/login">Profile</a>
+    <a class="nav-link" href="/login">Settings</a>
+</nav>
 
-    </nav>
-<!--Main Body-->
-
-
-<!--Searchbox-->
+<!-- Main Body -->
 <div class="container text-center mt-5">
     <h1>Browse</h1>
+
+    <!-- Searchbox -->
     <form class="form-inline justify-content-center mt-3" action="/browse" method="get">
-        <input class="form-control mr-2" type="search" name="query" placeholder="Search" aria-label="Search">
+        <input class="form-control mr-2" type="search" name="query" placeholder="Search" aria-label="Search"
+               th:value="${query}">
         <button class="btn btn-outline-primary" type="submit">Search</button>
     </form>
-<!--Filter Section-->
+
+    <!-- Filter Section -->
     <div class="container text-center mt-5">
         <h1>Filter</h1>
-        <form class="align-content-center" action="/browse/filtered" method="get">
+        <form class="align-content-center" action="/browse" method="get">
+            <input type="hidden" name="query" th:value="${query}">
             <div class="row">
                 <div class="col">
                     <label for="genreSelect">Genre</label>
                     <select class="form-control" id="genreSelect" name="genre">
                         <option value="">Select Genre</option>
-                        <option value="Action">Action</option>
-                        <option value="Comedy">Comedy</option>
-                        <option value="Drama">Drama</option>
-                        <option value="Horror">Horror</option>
-                        <option value="Romance">Romance</option>
-                        <!-- Add more genres here if needed -->
+                        <option value="Action" th:selected="${genre == 'Action'}">Action</option>
+                        <option value="Comedy" th:selected="${genre == 'Comedy'}">Comedy</option>
+                        <option value="Drama" th:selected="${genre == 'Drama'}">Drama</option>
+                        <option value="Horror" th:selected="${genre == 'Horror'}">Horror</option>
+                        <option value="Romance" th:selected="${genre == 'Romance'}">Romance</option>
+                        <!-- Add more genres if needed -->
                     </select>
                 </div>
                 <div class="col">
                     <label for="ratingSelect">Rating</label>
                     <select class="form-control" id="ratingSelect" name="rating">
                         <option value="">Select Rating</option>
-                        <option value="highRating">7-10</option>
-                        <option value="midRating">4-7</option>
-                        <option value="lowRating">1-4</option>
+                        <option value="highRating" th:selected="${rating == 'highRating'}">7-10</option>
+                        <option value="midRating" th:selected="${rating == 'midRating'}">4-7</option>
+                        <option value="lowRating" th:selected="${rating == 'lowRating'}">1-4</option>
                     </select>
                 </div>
                 <div class="col d-flex align-items-end">
-                    <label for="filterSubmit" class="sr-only">Submit</label>
-                    <button type="submit" class="btn btn-primary btn-block" id="filterSubmit">Apply Filters</button>
+                    <button type="submit" class="btn btn-primary btn-block">Apply Filters</button>
                 </div>
             </div>
         </form>
     </div>
-<!--Browse Section-->
-<!--Will populate with movies-->
+
+    <!-- Browse Section -->
     <div class="container text-center mt-5">
         <div class="row">
             <div class="column">
                 <h3>Movies</h3>
+                <p th:if="${movies.isEmpty()}">No movies found for the selected filters.</p>
                 <ul class="list">
-                    <!--Could make the listed titles link to a separate page that can suggest movies based on the selected title?-->
-
                     <li class="list-item" th:each="movie : ${movies}">
-
-<!--                        Current Poster Not Found Is Hard Coded ALt Text, needs fixed.-->
-<!--                        Stack overflow says this code might work                     -->
-<!--    String posterUrl = movieNode.path("poster_path").asText();
-    if (posterUrl.isEmpty()) {
-        posterUrl = "https://example.com/default-poster.jpg";
-    } else {
-        posterUrl = "https://image.tmdb.org/t/p/original" + posterUrl;
-    }
-    movie.setPosterUrl(posterUrl);                                                           -->
-                        <img th:src="@{${movie.posterUrl}}" alt="Origal Poster Not Found" class="img-thumbnail" style="width: 100px; height: 150px; margin-right: 15px;">
+                        <img th:src="${movie.posterUrl}" alt="Poster Not Found" class="img-thumbnail"
+                             style="width: 100px; height: 150px; margin-right: 15px;">
                         <h5 th:text="${movie.title}">Title</h5>
                         <p th:text="${movie.description}">Description</p>
                         <p>Rating: <span th:text="${movie.rating}"></span></p>
