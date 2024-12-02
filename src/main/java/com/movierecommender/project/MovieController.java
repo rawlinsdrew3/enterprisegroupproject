@@ -1,5 +1,6 @@
 package com.movierecommender.project;
 
+import com.movierecommender.project.service.IMovieService;
 import com.movierecommender.project.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,7 @@ import java.io.IOException;
 @Controller
 public class MovieController {
     @Autowired
-    MovieService movieService;
+    IMovieService movieService;
 
     @GetMapping("/movie")
     public String getMovie() {
