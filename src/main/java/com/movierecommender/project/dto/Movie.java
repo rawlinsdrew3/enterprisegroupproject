@@ -2,6 +2,7 @@ package com.movierecommender.project.dto;
 
 import lombok.Data;
 
+
 public @Data class Movie
 {
     public int movieId;
