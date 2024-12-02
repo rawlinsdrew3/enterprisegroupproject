@@ -3,6 +3,7 @@ package com.movierecommender.project.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movierecommender.project.dao.MovieRepository;
 import com.movierecommender.project.dto.Movie;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -16,39 +17,31 @@ import java.util.Optional;
 @Service
 public class MovieService implements IMovieService {
 
-    private final MovieRepository movieRepository;
-    private static final String API_URL = "https://api.themoviedb.org/3/movie/";
-    private static final String API_KEY = "YOUR_API_KEY"; // Replace with actual API key
+    @Autowired
+    private MovieRepository movieRepository;
 
-    public MovieService(MovieRepository movieRepository) {
-        this.movieRepository = movieRepository;
-    }
+    private static final String API_URL = "https://api.themoviedb.org/3/movie/";
+    private static final String BEARER_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NmZmYTM2NjgyYTY5ZDM1OWQ1MjQ4OTFkNDQ1OGI2NiIsIm5iZiI6MTcyOTYyNDQ5MS43MjE2MTgsInN1YiI6IjY3MTdmODBjNmU0MjEwNzgwZjc4NzRlYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ubnKxHe4mfL51OE8NhOz31gacsvQU0wyh1Ja6vfp4D0"; // Replace with your actual token
 
     @Override
-    public Movie fetchMovieFromExternalApi(int id) throws IOException, InterruptedException {
-        String url = API_URL + id + "?language=en-US";
+    public Movie fetchMovieFromExternalApi(int movieId) throws IOException, InterruptedException {
+        String url = API_URL + movieId + "?language=en-US";
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url))
                 .header("accept", "application/json")
-                .header("Authorization", "Bearer YOUR_ACCESS_TOKEN") // Replace with actual token
+                .header("Authorization", "Bearer " + BEARER_TOKEN)
                 .GET()
                 .build();
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() == 200) {
-            // Map JSON response to Movie object
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(response.body(), Movie.class);
         } else {
-            throw new RuntimeException("Failed to fetch movie from API: " + response.statusCode());
+            throw new RuntimeException("Failed to fetch movie from API. Status code: " + response.statusCode());
         }
-    }
-
-    @Override
-    public Movie saveMovie(Movie movie) {
-        return movieRepository.save(movie);
     }
 
     @Override
@@ -57,7 +50,7 @@ public class MovieService implements IMovieService {
     }
 
     @Override
-    public Optional<Movie> getMovieById(int id) {
-        return movieRepository.findById(id);
+    public Movie saveMovie(Movie movie) {
+        return movieRepository.save(movie);
     }
 }

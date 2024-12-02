@@ -8,35 +8,27 @@ import java.util.Optional;
 public interface IMovieService {
 
     /**
-     * Fetches a movie from the external API.
+     * Fetch a specific movie from the external API.
      *
-     * @param id The ID of the movie to fetch.
-     * @return The Movie object fetched from the API.
-     * @throws IOException If there is an issue with the HTTP request.
-     * @throws InterruptedException If the thread is interrupted during the HTTP request.
+     * @param movieId The ID of the movie to fetch.
+     * @return The fetched movie object.
+     * @throws IOException If an error occurs during the HTTP request.
+     * @throws InterruptedException If the HTTP request is interrupted.
      */
-    Movie fetchMovieFromExternalApi(int id) throws IOException, InterruptedException;
+    Movie fetchMovieFromExternalApi(int movieId) throws IOException, InterruptedException;
 
     /**
-     * Saves a movie to the local database.
+     * Fetch all movies from the local database.
      *
-     * @param movie The Movie object to save.
-     * @return The saved Movie object.
-     */
-    Movie saveMovie(Movie movie);
-
-    /**
-     * Retrieves all movies from the local database.
-     *
-     * @return An Iterable of all Movie objects.
+     * @return An iterable collection of movies.
      */
     Iterable<Movie> getAllMovies();
 
     /**
-     * Retrieves a movie by its ID from the local database.
+     * Save a movie to the local database.
      *
-     * @param id The ID of the movie to retrieve.
-     * @return An Optional containing the Movie object if found, or empty if not.
+     * @param movie The movie object to save.
+     * @return The saved movie object.
      */
-    Optional<Movie> getMovieById(int id);
+    Movie saveMovie(Movie movie);
 }

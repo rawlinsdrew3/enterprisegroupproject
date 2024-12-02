@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class BrowseService implements IBrowseService {
 
-    private static final String BEARER_TOKEN = "YOUR_BEARER_TOKEN"; // Replace with your actual token
+    private static final String BEARER_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NmZmYTM2NjgyYTY5ZDM1OWQ1MjQ4OTFkNDQ1OGI2NiIsIm5iZiI6MTcyOTYyNDQ5MS43MjE2MTgsInN1YiI6IjY3MTdmODBjNmU0MjEwNzgwZjc4NzRlYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ubnKxHe4mfL51OE8NhOz31gacsvQU0wyh1Ja6vfp4D0"; // Replace with your actual token
     private static final String BASE_URL = "https://api.themoviedb.org/3";
     private static final Map<Integer, String> GENRE_MAP = Map.of(
             28, "Action", 35, "Comedy", 18, "Drama", 27, "Horror",

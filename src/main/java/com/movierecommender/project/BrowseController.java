@@ -36,13 +36,26 @@ public class BrowseController {
 
     @GetMapping("/browse")
     //method accounts for search queries with @RequestParam
-    public ResponseEntity<?> browseMovies(@RequestParam(required = false) String query) {
+    public String browseMovies(
+            @RequestParam(required = false) String query,
+            @RequestParam(required = false) String genre,
+            @RequestParam(required = false) String rating,
+            Model model) {
         try {
-            List<Movie> movies = browseService.fetchMovies(query);
-            return ResponseEntity.ok(movies);
+            // Fetch movies with optional filters
+            List<Movie> movies = browseService.fetchAndFilterMovies(query, genre, rating);
+
+            // Pass data to the view
+            model.addAttribute("movies", movies);
+            model.addAttribute("query", query);
+            model.addAttribute("genre", genre);
+            model.addAttribute("rating", rating);
+
+            return "browse"; // Render Thymeleaf template
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error occurred while browsing movies: " + e.getMessage());
+            // Handle errors and display an error message
+            model.addAttribute("error", "Error occurred while browsing movies: " + e.getMessage());
+            return "browse"; // Render Thymeleaf template with error
         }
     }
 // list used to populate with movie api data

@@ -1,72 +1,77 @@
 package com.movierecommender.project;
 
+import com.movierecommender.project.dto.Movie;
 import com.movierecommender.project.service.IMovieService;
 import com.movierecommender.project.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.io.IOException;
 
+
+
 @Controller
 public class MovieController {
     @Autowired
     IMovieService movieService;
 
+    // Fetch a specific movie from the external API
     @GetMapping("/movie")
-    public String getMovie() {
-        String url = "https://api.themoviedb.org/3/movie/24?language=en-US";
-
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url))
-                .header("accept", "application/json")
-                .header("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NmZmYTM2NjgyYTY5ZDM1OWQ1MjQ4OTFkNDQ1OGI2NiIsIm5iZiI6MTcyOTYyNDQ5MS43MjE2MTgsInN1YiI6IjY3MTdmODBjNmU0MjEwNzgwZjc4NzRlYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ubnKxHe4mfL51OE8NhOz31gacsvQU0wyh1Ja6vfp4D0") // Replace with your actual token
-                .GET()
-                .build();
-
+    @ResponseBody
+    public ResponseEntity<?> getMovieFromApi() {
         try {
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() == 200) {
-                return response.body();
-            } else {
-                return "Error: " + response.statusCode();
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            return "Error occurred while fetching movie data.";
+            Movie movie = movieService.fetchMovieFromExternalApi(24); // Example movie ID
+            return ResponseEntity.ok(movie);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error occurred while fetching movie data: " + e.getMessage());
+        }
+    }
+    @GetMapping("/movies")
+    @ResponseBody
+    public ResponseEntity<?> getAllMovies() {
+        try {
+            Iterable<Movie> movies = movieService.getAllMovies();
+            return ResponseEntity.ok(movies);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error occurred while fetching movies: " + e.getMessage());
         }
     }
 
-    //Added mapping for html pages
+    // Add a new movie to the local database
+    @PostMapping("/movies")
+    @ResponseBody
+    public ResponseEntity<?> addMovie(@RequestBody Movie movie) {
+        try {
+            Movie savedMovie = movieService.saveMovie(movie);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedMovie);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error occurred while saving the movie: " + e.getMessage());
+        }
+    }
+
+    // HTML page mappings
     @GetMapping("/")
-    public String Index()
-    {
+    public String index() {
         return "Index";
     }
+
     @GetMapping("/login")
-    public String Login()
-    {
+    public String login() {
         return "login";
     }
+
     @GetMapping("/signup")
-    public String Signup()
-    {
+    public String signup() {
         return "signup";
-    }
-    @GetMapping("/Browse")
-    public String Browse()
-    {
-        return "browse";
-    }
-    @GetMapping("/Profile")
-    public String Profile()
-    {
-        return "profile";
     }
 }
