@@ -6,8 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 
 
 @Controller
@@ -50,6 +50,24 @@ public class MovieController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error occurred while saving the movie: " + e.getMessage());
         }
+    }
+
+    @PostMapping("/submit-rating")
+    public String submitRating(@RequestParam String movieTitle, @RequestParam int movieRating)
+    {
+        String fileName = "user_ratings.txt";
+        String ratedMovie = "Movie: " + movieTitle + ", Rating: " + movieRating + "\n";
+
+        try (FileWriter fileWriter = new FileWriter(fileName, true);
+             BufferedWriter ratingWriter = new BufferedWriter(fileWriter))
+        {
+            ratingWriter.write(ratedMovie);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return "redirect:/browse";
     }
 
     // HTML page mappings
