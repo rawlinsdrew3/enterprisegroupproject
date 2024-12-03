@@ -77,12 +77,13 @@ public class MovieController {
     }
 
     @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
+    public String login() {return "login";}
 
     @GetMapping("/signup")
     public String signup() {
         return "signup";
     }
+
+    @GetMapping("/Profile")
+    public String Profile(){ return "profile"; }
 }
