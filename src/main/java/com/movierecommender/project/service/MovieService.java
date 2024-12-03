@@ -1,18 +1,19 @@
 package com.movierecommender.project.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.movierecommender.project.dao.MovieRepository;
-import com.movierecommender.project.dto.Movie;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
-import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.movierecommender.project.dao.MovieRepository;
+import com.movierecommender.project.dto.Movie;
 
 @Service
 public class MovieService implements IMovieService {
@@ -21,9 +22,10 @@ public class MovieService implements IMovieService {
     private MovieRepository movieRepository;
 
     private static final String API_URL = "https://api.themoviedb.org/3/movie/";
-    private static final String BEARER_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NmZmYTM2NjgyYTY5ZDM1OWQ1MjQ4OTFkNDQ1OGI2NiIsIm5iZiI6MTcyOTYyNDQ5MS43MjE2MTgsInN1YiI6IjY3MTdmODBjNmU0MjEwNzgwZjc4NzRlYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ubnKxHe4mfL51OE8NhOz31gacsvQU0wyh1Ja6vfp4D0"; // Replace with your actual token
+    private static final String BEARER_TOKEN = "your_bearer_token"; // Replace with your actual token
 
     @Override
+    @Cacheable(value = "movies", key = "#movieId")
     public Movie fetchMovieFromExternalApi(int movieId) throws IOException, InterruptedException {
         String url = API_URL + movieId + "?language=en-US";
 
@@ -45,11 +47,13 @@ public class MovieService implements IMovieService {
     }
 
     @Override
+    @Cacheable("moviesList")
     public Iterable<Movie> getAllMovies() {
         return movieRepository.findAll();
     }
 
     @Override
+    @CacheEvict(value = {"movies", "moviesList"}, allEntries = true)
     public Movie saveMovie(Movie movie) {
         return movieRepository.save(movie);
     }
