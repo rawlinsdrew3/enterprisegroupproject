@@ -105,9 +105,9 @@ type": "object",
 ## Scrum Roles 
 
 - Drew Rawlins - Product Owner
-- Ravi Nayak - UI Specialist
+- Ravi Nayak - Backend Programmer
 - Marko Nisiama - Business Logic & Persistence Specialist 
-- Ethan Beach - Developer
+- Ethan Beach - UI Specialist
 - Earl Schreck - Testing/Debugging
 
 ![image](https://github.com/user-attachments/assets/04501a44-8e7a-48b4-b0ba-3c341c6ce4bb)
