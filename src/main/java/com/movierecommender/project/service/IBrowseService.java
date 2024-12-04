@@ -13,5 +13,5 @@ public interface IBrowseService {
 
     List<Movie> fetchMoviesByQuery(String query) throws IOException;
     List<Movie> fetchPopularMovies() throws IOException;
-
+    List<Movie> filterMovies(List<Movie> movies, String genre, String rating);
 }

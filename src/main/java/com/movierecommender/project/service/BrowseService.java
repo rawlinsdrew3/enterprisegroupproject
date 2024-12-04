@@ -20,6 +20,7 @@ public class BrowseService implements IBrowseService {
         return (query != null && !query.trim().isEmpty())
                 ? fetchMoviesByQuery(query)
                 : fetchPopularMovies();
+
     }
 
     @Override
@@ -38,7 +39,8 @@ public class BrowseService implements IBrowseService {
         return movieDAO.fetchPopularMovies();
     }
 
-    private List<Movie> filterMovies(List<Movie> movies, String genre, String rating) {
+    @Override
+    public List<Movie> filterMovies(List<Movie> movies, String genre, String rating) {
         return movies.stream()
                 .filter(movie -> genre == null || genre.isEmpty() || movie.getGenre().toLowerCase().contains(genre.toLowerCase()))
                 .filter(movie -> {

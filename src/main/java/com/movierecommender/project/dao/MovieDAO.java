@@ -24,9 +24,12 @@ public class MovieDAO implements IMovieDAO {
      */
     public List<Movie> fetchMoviesByQuery(String query) throws IOException {
         Retrofit retrofitInstance = RetrofitClientInstance.getRetrofitInstance();
+
+        String authorizationHeader = "Bearer " + API_KEY;
+
         IMovieRetrofitDAO movieRetrofitDAO = retrofitInstance.create(IMovieRetrofitDAO.class);
 
-        Call<List<Movie>> call = movieRetrofitDAO.searchMovies(query, false, "en-US", 1);
+        Call<List<Movie>> call = movieRetrofitDAO.searchMovies(authorizationHeader, query, false, "en-US", 1);
         Response<List<Movie>> response = call.execute();
         if (response.isSuccessful() && response.body() != null) {
             return response.body();
@@ -44,9 +47,10 @@ public class MovieDAO implements IMovieDAO {
     public List<Movie> fetchPopularMovies() throws IOException {
         Retrofit retrofitInstance = RetrofitClientInstance.getRetrofitInstance();
         IMovieRetrofitDAO movieRetrofitDAO = retrofitInstance.create(IMovieRetrofitDAO.class);
+        String authorizationHeader = "Bearer " + API_KEY;
 
         // Make the API call
-        Call<List<Movie>> call = movieRetrofitDAO.discoverMovies(false, false, "en-US", 1, "popularity.desc");
+        Call<List<Movie>> call = movieRetrofitDAO.discoverMovies(authorizationHeader,false, false, "en-US", 1, "popularity.desc");
         Response<List<Movie>> response = call.execute();
 
         // Return results or handle errors
