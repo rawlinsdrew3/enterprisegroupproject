@@ -1,57 +1,44 @@
 package com.movierecommender.project;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @SessionAttributes("favoriteGenres")
-public class ProfileController
-{
+public class ProfileController {
 
-    //Initialization
+    // Show the profile page
     @GetMapping("/profile")
-    public String showProfile(Model model)
-    {
+    public String showProfile(Model model) {
+        // Initialize favoriteGenres if not already set
         List<String> favoriteGenres = (List<String>) model.getAttribute("favoriteGenres");
-
-        if (favoriteGenres == null)
-        {
+        if (favoriteGenres == null) {
             favoriteGenres = new ArrayList<>();
         }
-
         model.addAttribute("favoriteGenres", favoriteGenres);
-
         return "profile";
     }
 
-    // Appending Genres
+    // Add a genre to the favoriteGenres list
     @PostMapping("/profile")
-    public String addFavoriteGenre(@RequestParam String selectedGenre, Model model)
-    {
+    public String addFavoriteGenre(@RequestParam String selectedGenre, Model model) {
         List<String> favoriteGenres = (List<String>) model.getAttribute("favoriteGenres");
-
-        if (favoriteGenres == null)
-        {
+        if (favoriteGenres == null) {
             favoriteGenres = new ArrayList<>();
         }
 
-        // Prevent adding duplicates
-        if (!favoriteGenres.contains(selectedGenre))
-        {
+        if (!favoriteGenres.contains(selectedGenre)) {
             favoriteGenres.add(selectedGenre);
         }
 
         model.addAttribute("favoriteGenres", favoriteGenres);
-
-        return "/profile";
+        return "profile";
     }
 }
-
-//Note: Selected genres seem to disappear when leaving the profile page and coming back.
-//If this does happen pressing add genre on an already existing genre should update the page to include the selected genres
-//Could be an issue to fix in future commits
