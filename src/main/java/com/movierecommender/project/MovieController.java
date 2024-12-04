@@ -1,70 +1,68 @@
 package com.movierecommender.project;
+
 import com.movierecommender.project.dto.Movie;
 import com.movierecommender.project.service.IMovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
-
 @Controller
 public class MovieController {
+
     @Autowired
-    IMovieService movieService;
+    private IMovieService movieService;
 
     // Fetch a specific movie from the external API
     @GetMapping("/movie")
     @ResponseBody
-    public ResponseEntity<?> getMovieFromApi() {
+    public ResponseEntity<?> getMovieFromApi(@RequestParam int movieId) {
         try {
-            Movie movie = movieService.fetchMovieFromExternalApi(24); // Example movie ID
+            Movie movie = movieService.fetchMovieFromExternalApi(movieId);
             return ResponseEntity.ok(movie);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error occurred while fetching movie data: " + e.getMessage());
+            return ResponseEntity.internalServerError()
+                    .body("Error while fetching movie: " + e.getMessage());
         }
     }
+
+    // Fetch all movies
     @GetMapping("/movies")
     @ResponseBody
     public ResponseEntity<?> getAllMovies() {
         try {
-            Iterable<Movie> movies = movieService.getAllMovies();
-            return ResponseEntity.ok(movies);
+            return ResponseEntity.ok(movieService.getAllMovies());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error occurred while fetching movies: " + e.getMessage());
+            return ResponseEntity.internalServerError()
+                    .body("Error while fetching movies: " + e.getMessage());
         }
     }
 
-    // Add a new movie to the local database
+    // Add a new movie
     @PostMapping("/movies")
     @ResponseBody
     public ResponseEntity<?> addMovie(@RequestBody Movie movie) {
         try {
-            Movie savedMovie = movieService.saveMovie(movie);
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedMovie);
+            return ResponseEntity.ok(movieService.saveMovie(movie));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error occurred while saving the movie: " + e.getMessage());
+            return ResponseEntity.internalServerError()
+                    .body("Error while saving movie: " + e.getMessage());
         }
     }
 
+    // Submit movie rating
     @PostMapping("/submit-rating")
-    public String submitRating(@RequestParam String movieTitle, @RequestParam int movieRating)
-    {
+    public String submitRating(@RequestParam String movieTitle, @RequestParam int movieRating) {
         String fileName = "user_ratings.txt";
-        String ratedMovie = "Movie: " + movieTitle + ", Rating: " + movieRating + "\n";
+        String ratingEntry = "Movie: " + movieTitle + ", Rating: " + movieRating + "\n";
 
-        try (FileWriter fileWriter = new FileWriter(fileName, true);
-             BufferedWriter ratingWriter = new BufferedWriter(fileWriter))
-        {
-            ratingWriter.write(ratedMovie);
-        } catch (Exception e)
-        {
-            e.printStackTrace();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))) {
+            writer.write(ratingEntry);
+        } catch (Exception e) {
+            System.err.println("Error writing rating: " + e.getMessage());
         }
 
         return "redirect:/browse";
@@ -77,13 +75,17 @@ public class MovieController {
     }
 
     @GetMapping("/login")
-    public String login() {return "login";}
+    public String login() {
+        return "login";
+    }
 
     @GetMapping("/signup")
     public String signup() {
         return "signup";
     }
 
-    @GetMapping("/Profile")
-    public String Profile(){ return "profile"; }
+    @GetMapping("/user-profile")
+    public String userProfile() {
+        return "profile";
+    }
 }
