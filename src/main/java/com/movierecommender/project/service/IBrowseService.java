@@ -10,4 +10,8 @@ public interface IBrowseService {
     List<Movie> fetchMovies(String query) throws IOException, InterruptedException;
 
     List<Movie> fetchAndFilterMovies(String query, String genre, String rating) throws IOException, InterruptedException;
+
+    List<Movie> fetchMoviesByQuery(String query) throws IOException;
+    List<Movie> fetchPopularMovies() throws IOException;
+
 }

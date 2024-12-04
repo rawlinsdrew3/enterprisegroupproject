@@ -22,7 +22,7 @@ public class MovieService implements IMovieService {
     private MovieRepository movieRepository;
 
     private static final String API_URL = "https://api.themoviedb.org/3/movie/";
-    private static final String BEARER_TOKEN = "your_bearer_token"; // Replace with your actual token
+    private static final String BEARER_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2NmZmYTM2NjgyYTY5ZDM1OWQ1MjQ4OTFkNDQ1OGI2NiIsIm5iZiI6MTcyOTYyNDQ5MS43MjE2MTgsInN1YiI6IjY3MTdmODBjNmU0MjEwNzgwZjc4NzRlYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ubnKxHe4mfL51OE8NhOz31gacsvQU0wyh1Ja6vfp4D0";
 
     @Override
     @Cacheable(value = "movies", key = "#movieId")
