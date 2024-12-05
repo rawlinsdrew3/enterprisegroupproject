@@ -15,6 +15,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
+/**
+ * Class that handles fetching movie data from the Movie Database
+ * API using Retrofit.
+ * This class contains methods to fetch movies by search query, fetch popular movies,
+ * and parse the movie data.
+ *
+ * @author Marko Nisiama
+ */
 @Repository
 public class MovieDAO implements IMovieDAO {
 
@@ -25,6 +34,13 @@ public class MovieDAO implements IMovieDAO {
             10751, "Family", 12, "Adventure", 53, "Thriller"
     );
 
+    /**
+     * Fetches a list of movies based on the provided search query from the API.
+     *
+     * @param query The search query string to search for movies.
+     * @return A list of movie objects matching the search query.
+     * @throws IOException If an error occurs during the API request or response parsing.
+     */
     @Override
     public List<Movie> fetchMoviesByQuery(String query) throws IOException {
         Retrofit retrofitInstance = RetrofitClientInstance.getRetrofitInstance();
@@ -41,6 +57,12 @@ public class MovieDAO implements IMovieDAO {
         }
     }
 
+    /**
+     * Fetches a list of popular movies from the API.
+     *
+     * @return A list of popular movie objects
+     * @throws IOException If an error occurs during the API request or response parsing.
+     */
     @Override
     public List<Movie> fetchPopularMovies() throws IOException {
         Retrofit retrofitInstance = RetrofitClientInstance.getRetrofitInstance();
@@ -57,6 +79,12 @@ public class MovieDAO implements IMovieDAO {
         }
     }
 
+    /**
+     * Parses a JSON array of movie data from the API response into a list of movie objects.
+     *
+     * @param resultsArray The JSON array containing the movie data.
+     * @return A list of movie objects parsed from the JSON data.
+     */
     @Override
     public List<Movie> parseMoviesFromJson(JsonArray resultsArray) {
         List<Movie> movies = new ArrayList<>();
@@ -86,6 +114,12 @@ public class MovieDAO implements IMovieDAO {
         return movies;
     }
 
+    /**
+     * Maps the list of genre IDs to their corresponding genre names.
+     *
+     * @param genreIds The JSON array containing genre IDs.
+     * @return A string of comma-separated genre names corresponding to the genre IDs.
+     */
     @Override
     public String mapGenres(JsonArray genreIds) {
         List<String> genres = new ArrayList<>();

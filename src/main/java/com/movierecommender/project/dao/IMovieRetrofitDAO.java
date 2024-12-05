@@ -9,7 +9,13 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.Query;
 
-
+/**
+ * Interface defining the Retrofit API calls for interacting with the API
+ * This interface contains methods for searching movies and discovering movies
+ * based on different criteria.
+ *
+ * @author Marko Nisiama
+ */
 public interface IMovieRetrofitDAO {
 
     @Headers("accept: application/json")
