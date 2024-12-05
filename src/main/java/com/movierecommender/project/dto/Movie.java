@@ -7,6 +7,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Data;
 
+/**
+ * DTO for the Movie Recommender.
+ * This class is used to store and retrieve movie data, including movie details
+ * like the title, genre, director, rating, release year, description, and poster URL.
+ *
+ * @author Marko Nisiama, Earl Schreck, Ethan Beach
+ */
 @Entity
 public @Data class Movie
 {
