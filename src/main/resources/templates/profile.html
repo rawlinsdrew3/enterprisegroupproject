@@ -26,10 +26,6 @@
             padding: 20px;
             margin: 0 auto;
         }
-        .rating-input
-        {
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
@@ -70,67 +66,21 @@
             </li>
         </ul>
     </div>
-    <div class="browse-section text-center">
-        <h1>Browse</h1>
-        <form class="mb-4" action="/browse" method="get">
-            <input class="form-control mr-2" type="search" name="query" placeholder="Search" aria-label="Search" th:value="${query}">
-            <div class="form-row">
-                <div class="form-group col">
-                    <label for="genreSelect">Genre</label>
-                    <select class="form-control" id="genreSelect" name="genre">
-                        <option value="">Select Genre</option>
-                        <option value="Action" th:selected="${genre == 'Action'}">Action</option>
-                        <option value="Comedy" th:selected="${genre == 'Comedy'}">Comedy</option>
-                        <option value="Drama" th:selected="${genre == 'Drama'}">Drama</option>
-                        <option value="Horror" th:selected="${genre == 'Horror'}">Horror</option>
-                        <option value="Romance" th:selected="${genre == 'Romance'}">Romance</option>
-                        <!-- Add more genres if needed -->
-                    </select>
-                </div>
-                <div class="form-group col">
-                    <label for="ratingSelect">Rating</label>
-                    <select class="form-control" id="ratingSelect" name="rating">
-                        <option value="">Select Rating</option>
-                        <option value="highRating" th:selected="${rating == 'highRating'}">7-10</option>
-                        <option value="midRating" th:selected="${rating == 'midRating'}">4-7</option>
-                        <option value="lowRating" th:selected="${rating == 'lowRating'}">1-4</option>
-                    </select>
-                </div>
-            </div>
-            <button class="btn btn-primary" type="submit">Search</button>
-        </form>
-        <div>
-            <h3>Movies</h3>
+    <div class="container text-center mt-4">
+        <h3>Browse</h3>
+        <div class="browse-section">
             <ul class="list d-flex flex-column align-items-center">
-                <li class="list-item mb-4" th:each="movie : ${movies}">
+                <li class="list-item mb-4">
                     <div class="card text-center" style="width: 5in;">
-                        <img th:src="@{${movie.posterUrl}}" alt="Poster Not Found" class="card-img-top">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOfVLJfrpi93nYHe18GRs5MjJkbucJhVQzrf5e3q0CJvQSe-r4pyvt8fquq7QRQGaL2r3hwO73y2xU-z1WGy-_RIMip0Yc8Q" alt="Movie Poster" class="card-img-top">
                         <div class="card-body">
-                            <h5 class="card-title" th:text="${movie.title}">Title</h5>
-                            <p class="card-text" th:text="${movie.description}">Description</p>
-                            <p>Rating: <span th:text="${movie.rating}"></span></p>
-                            <p>Release Date: <span th:text="${movie.releaseYear}"></span></p>
-                            <div class="rating-input">
-                                <label for="personalRating">Your Rating:</label>
-                                <form action="/submit-rating" method="post">
-                                    <div class="form-group mb-2">
-                                        <input type="hidden" name="movieTitle" th:value="${movie.title}">
-                                        <input type="number" class="form-control d-inline-block" id="personalRating" name="movieRating" placeholder="1-10" min="1" max="10" style="width: 80px;">
-                                    </div>
-                                    <button type="submit" class="btn btn-sm btn-primary mt-2">Submit Rating</button>
-                                </form>
-                            </div>
+                            <h5 class="card-title">Alien Warfare</h5>
+                            <p class="card-text">Action</p>
+                            <p class="card-text">
+                                A Navy SEAL team undertake a top-secret mission to investigate the mysterious disappearance of several scientists at a remote research centre.
+                            </p>
+                            <p class="card-text">2019</p>
                         </div>
-                        <!--Could make the listed titles link to a separate page that can suggest movies based on the selected title?-->
-                        <!--Current Poster Not Found Is Hard Coded ALt Text, needs fixed.-->
-                        <!--Stack overflow says this code might work-->
-                        <!--String posterUrl = movieNode.path("poster_path").asText();
-                        if (posterUrl.isEmpty())
-                        posterUrl = "https://example.com/default-poster.jpg";
-                        } else {
-                        posterUrl = "https://image.tmdb.org/t/p/original" + posterUrl;
-                        }
-                        movie.setPosterUrl(posterUrl);-->
                     </div>
                 </li>
             </ul>
