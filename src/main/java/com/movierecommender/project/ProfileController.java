@@ -48,7 +48,7 @@ public class ProfileController
 
         model.addAttribute("favoriteGenres", favoriteGenres);
 
-        return "/profile";
+        return "profile";
     }
 }
 

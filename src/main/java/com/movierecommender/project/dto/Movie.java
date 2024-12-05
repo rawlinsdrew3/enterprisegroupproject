@@ -20,7 +20,8 @@ public @Data class Movie
     public String description;
     private String posterUrl;
 
-//    public String getPosterUrl() {
+
+    //    public String getPosterUrl() {
 //        return posterUrl;
 //    }
     public void setPosterUrl(String posterUrl) {
