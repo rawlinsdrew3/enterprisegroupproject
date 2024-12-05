@@ -20,7 +20,7 @@ service that uses the user's preferences and selections of movies to be suggeste
 
 **When**: I enter my email and password on the login page, then click Login  
 
-**Then**: I am redirected to my dashboard, showing my preferences.
+**Then**: I am redirected to my dashboard, showing my movies genre preferences.
 
 ---
 
