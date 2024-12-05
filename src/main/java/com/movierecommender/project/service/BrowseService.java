@@ -17,13 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-/**
- * Service class for browsing and filtering movies from an external movie database API.
- * This class interacts with the external API to fetch movie data based on a search query,
- * genre, and rating.
- *
- * @author Marko Nisiama
- */
 @Service
 public class BrowseService implements IBrowseService {
 
@@ -35,15 +28,6 @@ public class BrowseService implements IBrowseService {
             10751, "Family", 12, "Adventure", 53, "Thriller"
     );
 
-    /**
-     * Fetches a list of movies based on the provided query.
-     * If the query is empty or null, it fetches popular movies.
-     *
-     * @param query The search query string. Can be null or empty to fetch popular movies.
-     * @return A list of movie objects.
-     * @throws IOException If there is an issue with the API request or response.
-     * @throws InterruptedException If the API request is interrupted.
-     */
     @Override
     public List<Movie> fetchMovies(String query) throws IOException, InterruptedException {
         String url = query != null && !query.trim().isEmpty()
@@ -53,30 +37,12 @@ public class BrowseService implements IBrowseService {
         return fetchMoviesFromApi(url);
     }
 
-    /**
-     * Fetches and filters a list of movies based on the provided query, genre, and rating.
-     *
-     * @param query The search query string. Can be null or empty to fetch popular movies.
-     * @param genre The genre to filter the movies by. Can be null or empty to include all genres.
-     * @param rating The rating filter. It can be "highRating", "midRating", or "lowRating".
-     * @return A list of filtered movie objects.
-     * @throws IOException If there is an issue with the API request or response.
-     * @throws InterruptedException If the API request is interrupted.
-     */
     @Override
     public List<Movie> fetchAndFilterMovies(String query, String genre, String rating) throws IOException, InterruptedException {
         List<Movie> movies = fetchMovies(query);
         return filterMovies(movies, genre, rating);
     }
 
-    /**
-     * Sends an API request to fetch movies from the movie database based on the provided URL.
-     *
-     * @param url The URL to fetch the movies from.
-     * @return A list of movie objects.
-     * @throws IOException If there is an issue with the API request or response.
-     * @throws InterruptedException If the API request is interrupted.
-     */
     private List<Movie> fetchMoviesFromApi(String url) throws IOException, InterruptedException {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -94,13 +60,6 @@ public class BrowseService implements IBrowseService {
         }
     }
 
-    /**
-     * Parses the JSON response from the API and converts it into a list of movie objects.
-     *
-     * @param jsonResponse The JSON response as a string.
-     * @return A list of movie objects parsed from the response.
-     * @throws IOException If there is an issue with parsing the JSON response.
-     */
     private List<Movie> parseMovies(String jsonResponse) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode rootNode = mapper.readTree(jsonResponse);
@@ -127,14 +86,6 @@ public class BrowseService implements IBrowseService {
         return movies;
     }
 
-    /**
-     * Filters the list of movies based on the provided genre and rating.
-     *
-     * @param movies The list of movies to filter.
-     * @param genre The genre to filter by. Can be null or empty to include all genres.
-     * @param rating The rating filter. It can be "highRating", "midRating", or "lowRating".
-     * @return A filtered list of movie objects.
-     */
     private List<Movie> filterMovies(List<Movie> movies, String genre, String rating) {
         return movies.stream()
                 .filter(movie -> genre == null || genre.isEmpty() || movie.getGenre().toLowerCase().contains(genre.toLowerCase()))
