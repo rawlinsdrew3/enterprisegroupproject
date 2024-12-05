@@ -8,12 +8,26 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller class responsible for handling the user's profile page.
+ * Manages the user's list of favorite genres, allowing the user to view
+ * and add genres to their favorites.
+ *
+ * @author Ethan Beach
+ */
 @Controller
 @SessionAttributes("favoriteGenres")
 public class ProfileController
 {
 
-    //Initialization
+    /**
+     * Handles the HTTP GET request for displaying the user's profile page.
+     * Initializes the user's list of favorite genres if not already present
+     * and adds it to the model attribute.
+     *
+     * @param model the model object used to pass attributes to the view
+     * @return the name of the view to be resolved, which is "profile"
+     */
     @GetMapping("/profile")
     public String showProfile(Model model)
     {
@@ -29,7 +43,15 @@ public class ProfileController
         return "profile";
     }
 
-    // Appending Genres
+    /**
+     * Handles the addition of a selected genre to the user's list of favorite genres.
+     * If the genre is not already in the list, it is added. The updated list is
+     * stored in the model object to be accessible in the user's profile view.
+     *
+     * @param selectedGenre the genre selected by the user to be added to their list of favorites
+     * @param model the model object used to pass attributes to the view
+     * @return the name of the view to be resolved, which is "profile"
+     */
     @PostMapping("/profile")
     public String addFavoriteGenre(@RequestParam String selectedGenre, Model model)
     {
