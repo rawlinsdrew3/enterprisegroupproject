@@ -14,6 +14,13 @@ import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service class that provides operations related to movies.
+ * The class interacts with the external movie API (TheMovieDB) to fetch movie data,
+ * as well as with the local movie repository for storing and retrieving movie data.
+ *
+ * @author Marko Nisiama
+ */
 @Service
 public class MovieService implements IMovieService {
 

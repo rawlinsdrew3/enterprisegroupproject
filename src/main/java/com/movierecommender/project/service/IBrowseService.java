@@ -5,6 +5,13 @@ import com.movierecommender.project.dto.Movie;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Interface for handling movie browsing and filtering operations.
+ * This interface defines methods for fetching movies based on a search query and filtering them
+ * by various criteria such as query, genre, and rating
+ *
+ * @author Marko Nisiama
+ */
 public interface IBrowseService {
 
     /**

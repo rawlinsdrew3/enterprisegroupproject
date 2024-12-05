@@ -1,5 +1,12 @@
 package com.movierecommender.project;
 
+
+/**
+ * Class represents a user login or sign-in object that contains the user's credentials.
+ * It is used for storing the login information of a user during the sign-in process.
+ *
+ * @author Ravi Nayak
+ */
 public class Sigin {
     private String username;
     private String password;

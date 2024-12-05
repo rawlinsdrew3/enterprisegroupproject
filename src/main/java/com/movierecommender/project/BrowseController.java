@@ -10,6 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
+/**
+ * Controller class responsible for handling movie browsing operations.
+ * Provides endpoints to search and filter movies by title, genre, and rating.
+ *
+ * @author Marko Nisiama, Earl Schreck
+ */
 @Controller
 public class BrowseController {
 

@@ -17,6 +17,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Service class for browsing and filtering movies from an external movie database API.
+ * This class interacts with the external API to fetch movie data based on a search query,
+ * genre, and rating.
+ *
+ * @author Marko Nisiama
+ */
 @Service
 public class BrowseService implements IBrowseService {
 

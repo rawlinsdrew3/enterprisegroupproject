@@ -8,6 +8,13 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller class responsible for handling the user's profile page.
+ * Manages the user's list of favorite genres, allowing the user to view
+ * and add genres to their favorites.
+ *
+ * @author Ethan Beach
+ */
 @Controller
 @SessionAttributes("favoriteGenres")
 public class ProfileController

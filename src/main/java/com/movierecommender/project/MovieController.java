@@ -9,7 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
-
+/**
+ * Controller class responsible for handling movie-related operations.
+ * Provides endpoints to fetch movie details from an external API, retrieve
+ * movies from the local database, add new movies to the database, and submit
+ * user ratings for movies.
+ *
+ * @author Marko Nisiama, Earl Schreck, Drew Rawlins, Ethan Beach
+ */
 @Controller
 public class MovieController {
     @Autowired

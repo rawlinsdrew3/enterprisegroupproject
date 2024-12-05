@@ -5,6 +5,12 @@ import com.movierecommender.project.dto.Movie;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * Interface for handling operations related to movies.
+ * This interface defines methods for interacting with both an external movie API
+ * and the local movie repository.
+ * @author Marko Nisiama
+ */
 public interface IMovieService {
 
     /**
